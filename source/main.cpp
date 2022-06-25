@@ -13,33 +13,15 @@ std::vector<std::vector<RSGL::rect>> pipes{
 };
 
 
-std::string lonicIMG="res/images/run1.png"; int img=0; int shootTick=0, pacTick=0, addTick=0;
+std::string lonicIMG="res/images/run1.png"; int img=0; int shootTick=0, pacTick=0;
 RSGL::rect BidenRect; int BidenHealth=200; bool p1=true;
 std::vector<RSGL::rect> bidens{{0,win.r.length-100,100,100}, {20,0,100,100},{20,130,100,120}};
 
 RSGL::point pacBullet={-20,-20}; 
-std::string outputText="";
 std::string text = "YAY! Lonic defated Biden,\ngot all his monies back,\nand saved president Tux!!!\nThanks for Playing";
 
-void splashScreen(std::string file="res/images/logo.png",std::string font="res/fonts/SansPosterBold.ttf",int t=100,RSGL::window d=RSGL::root){
-    static bool running=true;
-    RSGL::color c = d.color; if (t < 100) t=100;
-    int cl=0;
-    while (running){
-        win.checkEvents();  win.setColor({0,0,0}); cl++;
-        if (cl==t) running=false;
-        switch(win.event.type){
-            case RSGL::quit: running=false; win.close(); break;
-            default: break;
-        }
-        RSGL::drawImage(file,{win.r.width/6,win.r.length/6,win.r.width/1.5,win.r.length/1.5});
-        RSGL::drawText("Powered With",{win.r.width/6,win.r.length/9,win.r.width/20},font.data(),{255,0,0});
-        win.clear();
-    } win.setColor(c); running=false;
-}
 
 int main(){
-
       bool biden=false; bool init=false;
       srand(time(NULL)); pipe=rand() % 2;
       RSGL::Button b("play","res/fonts/SansPosterBold.ttf",{win.r.width/2-80+15,400+15,15}, {win.r.width/2-80+1,400+1,90-2,50-2},{255,255,255},{255,146,28});
@@ -53,7 +35,7 @@ int main(){
             }
             if (intro){
                   if(!info){
-                        splashScreen();
+                        RSGL::splashScreen();
                         win.setColor({0,0,0});
                         b.checkAndDraw(); b2.checkAndDraw();
                         if (b2.event && b2.event < 3) info=true;
@@ -69,7 +51,7 @@ int main(){
                         RSGL::drawRoundRect({win.r.width/2-80,400,90,50},{254,223,119},false);
                         RSGL::drawRoundRect({win.r.width/2+20,400,90,50},{254,223,119},false);
                   } else{ 
-                        b3.checkAndDraw(); if (b3.event && b2.event < 3){ intro=false; win.setColor({125,125,125}); }
+                        b3.checkAndDraw(); if (b3.event && b2.event < 3){ info=false; intro=false; win.setColor({125,125,125}); }
                         RSGL::drawText("Lonic Dash is a political parody of Sonic\nmixed with gameplay comparable to flappy bird.\n\nIn the game you play as Lonic, RSGL's mascot.\nLonic is going after Joe Biden to get his monies\nback after Joe Biden stole it\nas seen in RSGLLONIC POPCORNSHOP*\n\nThe controls are:\n* space to shoot\n* W/Up to go up\n* W/Down to go down",{5,20,10},"res/fonts/PublicPixel.ttf",{255,255,255});
                         RSGL::drawRoundRect({win.r.width/2+120,400,90,50},{254,223,119},false);
                   }
@@ -116,13 +98,11 @@ int main(){
                   img++; pacTick++; if (shooting) shootTick++; 
             }
             else if (!intro){
-                  if (addTick >= 3 && text.size() != outputText.size()){ addTick=0; outputText += text.at(outputText.size());}
-                  RSGL::drawText(outputText,{20,20,15},"res/fonts/PublicPixel.ttf",{255,0,0});
                   RSGL::drawImage("res/images/lonicEnd.png",{win.r.width/2-200,win.r.width/2-50,200,200});
                   RSGL::drawImage("res/images/tux.png",{win.r.width-200,100,200,200});
                   RSGL::drawImage("res/images/bidenEnd.png",{win.r.width-200,win.r.length-200,250,200});
                   RSGL::drawImage("res/images/RSGL.png",{20,win.r.length-80,100,80}); 
-                  addTick++;
+                  RSGL::drawTypingText(text,{20,20,15},"res/fonts/PublicPixel.ttf",{255,0,0});
             }
             win.clear();
       } win.close();
