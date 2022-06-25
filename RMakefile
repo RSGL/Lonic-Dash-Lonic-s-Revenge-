@@ -1,0 +1,9 @@
+SOURCE += source/*.cpp
+LIBS += -lRSGL
+ARGS += -g
+OUTPUT = Lonic-Dash
+GXX = g++
+
+pash{
+      ./$(OUTPUT)
+}
