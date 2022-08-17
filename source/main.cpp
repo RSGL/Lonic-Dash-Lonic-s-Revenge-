@@ -4,7 +4,7 @@
 RSGL::window win("Lonic Dash",{500,500,500,500},{125,125,125});
 bool running=true,dead=false, shooting=false, intro=true, info=false;
 
-int speed=4, jumpRes=20, pipe, pipex=600, reward=0, lastmove, bidenHits;
+int speed=4, jumpRes=20, pipex=600, reward=0, lastmove, bidenHits;
 
 RSGL::rect bird = {60,20,30,25};
 std::vector<std::vector<RSGL::rect>> pipes{
@@ -22,6 +22,7 @@ std::string text = "YAY! Lonic defated Biden,\ngot all his monies back,\nand sav
 
 
 int main(){
+      int pipe;
       bool biden=false; bool init=false;
       srand(time(NULL)); pipe=rand() % 2;
       RSGL::Button b("play","res/fonts/SansPosterBold.ttf",{win.r.width/2-80+15,400+15,15}, {win.r.width/2-80+1,400+1,90-2,50-2},{255,255,255},{255,146,28});
